@@ -1,0 +1,13 @@
+*.class
+
+# Gradle build artifacts
+build/
+.gradle/
+
+# Package Files
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs
+hs_err_pid*
