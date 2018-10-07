@@ -10,10 +10,14 @@ public class Command {
 
 	public String toString() {
 		switch (type) {
-			case TOGGLE_FLAG_MODE:return "Toggle Flag Mode";
-			case TOUCH_CELL:return "Touch Cell " + x + "," + y;
-			case ERROR:return "Error";
-			default: return "Unknown Command";
+			case TOGGLE_FLAG_MODE:
+        return "Toggle Flag Mode";
+			case TOUCH_CELL:
+        return "Touch Cell " + x + "," + y;
+			case ERROR:
+        return "Error";
+			default:
+        return "Unknown Command";
 		}
 	}
 
@@ -48,5 +52,4 @@ public class Command {
 	public int getY() {
 		return y;
 	}
-
 }

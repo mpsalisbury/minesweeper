@@ -1,12 +1,17 @@
 package minesweeper;
 
-public class Controller {
+public class TerminalInterface {
 
 	private Grid grid;
 	private CommandFetcher fetcher;
 	private boolean flagMode;
 
-	public Controller() {
+	public static void main(String[] args) {
+		TerminalInterface terminal = new TerminalInterface();
+		terminal.run();
+	}
+
+	public TerminalInterface() {
 		grid = new Grid(8, 8, 9);
 		fetcher = new CommandFetcher();
 		flagMode = false;

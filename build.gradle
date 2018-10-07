@@ -24,10 +24,8 @@ dependencies {
   implementation 'com.github.mpsalisbury:launchpad-viewport:v0.1'
 }
 
-task terminal(type: JavaExec) {
-  classpath = sourceSets.main.runtimeClasspath
-  mainClassName = 'minesweeper.Grid'
-}
+//mainClassName = 'minesweeper.TerminalInterface'
+mainClassName = 'minesweeper.LaunchpadInterface'
 
 run {
   standardInput = System.in
@@ -35,6 +33,6 @@ run {
 
 jar {
   manifest {
-    attributes 'Main-Class': 'minesweeper.Grid'
+    attributes 'Main-Class': 'minesweeper.LaunchpadInterface'
   }
 }
