@@ -1,0 +1,40 @@
+buildscript {
+  repositories {
+    mavenLocal()
+  }
+}
+
+plugins {
+  id 'com.github.sherter.google-java-format' version '0.6'
+}
+
+apply plugin: 'application'
+apply plugin: 'java'
+apply plugin: 'java-library'
+
+allprojects {
+  repositories {
+    jcenter()
+    maven { url "https://jitpack.io" }
+  }
+}
+
+dependencies {
+  implementation 'com.google.guava:guava:20.0'
+  implementation 'com.github.mpsalisbury:launchpad-viewport:v0.1'
+}
+
+task terminal(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  mainClassName = 'minesweeper.Grid'
+}
+
+run {
+  standardInput = System.in
+}
+
+jar {
+  manifest {
+    attributes 'Main-Class': 'minesweeper.Grid'
+  }
+}
