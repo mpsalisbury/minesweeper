@@ -34,8 +34,5 @@ run {
 jar {
   manifest {
     attributes 'Main-Class': 'minesweeper.LaunchpadInterface'
-//               'Class-Path': configurations.runtimeClasspath.files.collect { "lib/$it.name" }.join(' ')
   }
-//  from configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.
-//                                       collect { it }
 }
