@@ -11,6 +11,10 @@ public class Grid {
 	private int goodCoversRemaining;
 	private Cell[][] cell;
 
+	public enum UserCellState {
+		COVERED, FLAGGED, BOMB_0, BOMB_1, BOMB_2, BOMB_3, BOMB_4, BOMB_5, BOMB_6, BOMB_7, BOMB_8, HAS_BOMB;
+	}
+
 	private static class Cell {
 		enum CoverState {
 			OPEN, COVERED, FLAGGED;
@@ -22,6 +26,13 @@ public class Grid {
 					case FLAGGED: return "F ";
 					default: return "xx";
 				}
+			}
+			public UserCellState getUserState() {
+				switch (this) {
+					case COVERED: return UserCellState.COVERED;
+					case FLAGGED: return UserCellState.FLAGGED;
+					default: throw new IllegalStateException();
+				}	
 			}
 		}
 
@@ -57,6 +68,22 @@ public class Grid {
 					default: return "xx";
 				}
 			}
+
+			public UserCellState getUserState() {
+				switch (this) {
+					case BOMB_0: return UserCellState.BOMB_0;
+					case BOMB_1: return UserCellState.BOMB_1;
+					case BOMB_2: return UserCellState.BOMB_2;
+					case BOMB_3: return UserCellState.BOMB_3;
+					case BOMB_4: return UserCellState.BOMB_4;
+					case BOMB_5: return UserCellState.BOMB_5;
+					case BOMB_6: return UserCellState.BOMB_6;
+					case BOMB_7: return UserCellState.BOMB_7;
+					case BOMB_8: return UserCellState.BOMB_8;
+					case HAS_BOMB: return UserCellState.HAS_BOMB;
+					default: throw new IllegalStateException();
+				}
+			}
 		}
 		private CellState cellState;
 		private CoverState coverState;
@@ -79,6 +106,13 @@ public class Grid {
 		}
 		public boolean isCovered() {
 			return coverState == CoverState.COVERED;
+		}
+		public UserCellState getUserState() {
+			if(coverState == CoverState.OPEN){
+				return cellState.getUserState();
+			} else {
+				return coverState.getUserState();
+			}
 		}
 		public String toUserString() {
 			if(coverState == CoverState.OPEN){
@@ -228,6 +262,10 @@ public class Grid {
 
 	public boolean hasWon() {
 		return goodCoversRemaining < 1;
+	}
+
+	public UserCellState getUserCellState(int x, int y) {
+		return cell[x][y].getUserState();
 	}
 
 	public void printForUser(PrintStream out) {
