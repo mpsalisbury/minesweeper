@@ -7,6 +7,7 @@ import com.salisburyclan.lpviewport.api.LaunchpadApplication;
 import com.salisburyclan.lpviewport.api.SubView;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.Viewport0;
+import com.salisburyclan.lpviewport.api.Viewport1;
 import com.salisburyclan.lpviewport.api.WriteLayer;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
@@ -18,6 +19,7 @@ public class LaunchpadInterface extends LaunchpadApplication {
   private boolean flagMode;
   private WriteLayer gridLayer;
   private Viewport0 flagViewport;
+  private Viewport1 keyViewport;
 
   public static void main(String[] args) {
     Application.launch(args);
@@ -41,6 +43,9 @@ public class LaunchpadInterface extends LaunchpadApplication {
             toggleFlag();
           }
         });
+    Range2 viewportExtent = viewport.getExtent();
+    Range2 keyExtent = viewport.getExtent().inset(viewportExtent.getWidth() - 1, 0, 0, 0);
+    keyViewport = SubView.getSubViewport1(viewport, keyExtent);
     Range2 gridExtent = viewport.getExtent().inset(0, 0, 1, 1);
     grid =
         new Grid(
@@ -57,6 +62,7 @@ public class LaunchpadInterface extends LaunchpadApplication {
         });
     drawGrid();
     drawFlag();
+    drawKey();
   }
 
   private void touchCell(int x, int y) {
@@ -64,6 +70,14 @@ public class LaunchpadInterface extends LaunchpadApplication {
       grid.flagCell(x, y);
     } else {
       grid.openCell(x, y);
+    }
+    if (grid.hasBombExploded()) {
+      System.out.println("Game Over, You Hit A Bomb!");
+      return;
+    }
+    if (grid.hasWon()) {
+      System.out.println("Congratulations, You Swept The Mines!");
+      return;
     }
     drawGrid();
   }
@@ -90,10 +104,20 @@ public class LaunchpadInterface extends LaunchpadApplication {
             });
   }
 
+  private void drawKey() {
+    for (int x = 0; x <= 7 && x <= keyViewport.getExtent().high(); x++) {
+      keyViewport.setPixel(x, getUserStateColor(Grid.UserCellState.getBombState(x + 1)));
+    }
+  }
+
   private Color getGridColor(int x, int y) {
-    switch (grid.getUserCellState(x, y)) {
+    return getUserStateColor(grid.getUserCellState(x, y));
+  }
+
+  private Color getUserStateColor(Grid.UserCellState state) {
+    switch (state) {
       case COVERED:
-        return Color.LIGHT_GRAY;
+        return Color.DARK_GRAY;
       case FLAGGED:
         return Color.YELLOW;
       case BOMB_0:

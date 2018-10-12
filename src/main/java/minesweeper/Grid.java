@@ -24,6 +24,31 @@ public class Grid {
     BOMB_7,
     BOMB_8,
     HAS_BOMB;
+
+    public static UserCellState getBombState(int numBombs) {
+      switch (numBombs) {
+        case 0:
+          return BOMB_0;
+        case 1:
+          return BOMB_1;
+        case 2:
+          return BOMB_2;
+        case 3:
+          return BOMB_3;
+        case 4:
+          return BOMB_4;
+        case 5:
+          return BOMB_5;
+        case 6:
+          return BOMB_6;
+        case 7:
+          return BOMB_7;
+        case 8:
+          return BOMB_8;
+        default:
+          throw new IllegalArgumentException();
+      }
+    }
   }
 
   private static class Cell {
@@ -218,9 +243,9 @@ public class Grid {
     }
   }
 
-  public Grid(int height, int width, int bombCount) {
-    this.height = height;
+  public Grid(int width, int height, int bombCount) {
     this.width = width;
+    this.height = height;
     this.bombCount = bombCount;
     goodCoversRemaining = (height * width) - bombCount;
     bombExploded = false;
